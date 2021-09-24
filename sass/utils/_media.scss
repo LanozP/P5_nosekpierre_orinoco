@@ -1,0 +1,7 @@
+$phone: 375px;
+$tablet: 768px;
+$desktop: 1024px;
+
+$media-down: "only screen and (min-width: #{$phone})";
+$media-medium: "only screen and (min-width: #{$tablet})";
+$media-up: "only screen and (min-width: #{$desktop})"; 

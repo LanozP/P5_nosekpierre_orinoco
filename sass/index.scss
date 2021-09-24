@@ -1,0 +1,56 @@
+
+
+@import "./utils/variables";
+@import "./utils/mixins";
+@import "./utils/media"; 
+@import "./utils/keyframes";
+
+body {
+    max-width: 2000px;
+    margin: 0 auto;
+    padding: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.container {
+    background: rgb(173, 157, 166);
+}
+
+.header {
+    display: flex;
+    @include header;
+}
+
+section {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    @include productsBox;
+}
+
+.options {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.select {
+    font-weight: 600;
+    margin-left: 10px;
+}
+
+button {
+    font-weight: 700;
+    background: white;
+    border-radius: 10px;
+    border: 3px solid transparent;
+    box-shadow: 10px 12px 14px -13px rgba(0,0,0,0.75);
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.hide {
+    color: transparent;
+}
+
