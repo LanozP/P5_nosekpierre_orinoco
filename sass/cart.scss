@@ -25,31 +25,5 @@ section {
     display: flex;
     justify-content: space-around;
     flex-direction: column;
-    @include productsBox;
+    @include dealBox;
 }
-
-.options {
-    display: flex;
-    justify-content: center;
-    margin-top: 40px;
-}
-
-.select {
-    font-weight: 600;
-    margin-left: 10px;
-}
-
-button {
-    font-weight: 700;
-    background: white;
-    border-radius: 10px;
-    border: 3px solid transparent;
-    box-shadow: 10px 12px 14px -13px rgba(0,0,0,0.75);
-    margin-left: 20px;
-    cursor: pointer;
-}
-
-.hide {
-    color: transparent;
-}
-

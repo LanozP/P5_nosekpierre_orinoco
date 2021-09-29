@@ -10,13 +10,15 @@
     <link rel="stylesheet"
     href="https://fonts.googleapis.com/css?family=Open+Sans">
 
-    <title>Orinoco</title>
+    <script src="https://kit.fontawesome.com/0df0a6f299.js" crossorigin="anonymous"></script>
 
+    <title>Orinoco - Panier</title>
 
+    <link rel="stylesheet" href="./public/css/cart.css">
     <link rel="stylesheet" href="./public/css/index.css">
 
 </head>
-    <body class="page-index">
+    <body class="page-cart">
 
         <div class="container">
 
@@ -24,34 +26,30 @@
             <div class="header">
                 <nav>
                     <a href="index.html">
-                        <img class="logo" src="logo.png" alt="Logo du site de vente en ligne">  
+                        <img class="logo" src="../logo.png" alt="Logo du site de vente en ligne">  
                     </a>
                     <div class="button">
-                        <a href="index.html">Accueil</a>
-                        <a id="panier" href="cart.html">Panier
-                        </a>
-                        <a href="pages/compte.html">Compte</a>
+                        <a href="../index.html">Accueil</a>
+                        <a href="cart.html">Panier</a>
+                        <a href="compte.html">Compte</a>
                         <a href="">Contact</a>
                     </div>
                 </nav>
             </div>  
             <!-- END OF HEADER -->
 
-            <!-- PRODUCTS -->
+            <!-- PANIER -->
             <section>
 
-                <div>
-                    <div id="articles"></div>
+                <div id="cart">
+                    
                 </div>
 
-
-            
             </section>
-            <!-- END OF PRODUCTS -->
-
+            <!-- END OF PANIER -->
+        
+        <script src="cart.js"></script>
+        <script src="index.js"></script>
         </div>
-       
-        <script src="cart.js"></script> 
-        <script src="index.js"></script> 
     </body>
 </html>
