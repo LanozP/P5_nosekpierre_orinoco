@@ -3,7 +3,8 @@
 function initCart() {
   
     let cartJson = getCart();
-
+    
+    // Si il n'y a pas d'article un panier vide s'initialise
     if (!cartJson) {
         localStorage.setItem("cart", "[]") 
     }
@@ -11,6 +12,7 @@ function initCart() {
     // Affiche le panier si on est sur la page panier
     let check = document.querySelector(".page-cart");
 
+    // si on est sur la page panier il initialise le panier et ajoute l'articleHTML
     if (check) {
         let cartProducts = getCart();
 
@@ -61,6 +63,46 @@ function initAddToCart() {
     };
 }
 
+// Initialisation du bouton de suppression d'un article du panier
+function initdeleteFromCart() {
+
+    let deleteEl = document.querySelectorAll(".deleteFromCart");
+
+    for (let index = 0; index < deleteEl.length; index++) {
+        const formEl = deleteEl[index];
+
+        formEl.addEventListener('submit', function(e) {
+            // Permet de bloquer la requete http
+            e.preventDefault();
+
+            // Permet de recuperer les champs du formulaire
+            const data = new FormData(e.target);
+
+            // Convertis les champs en json
+            let newProductJson = Object.fromEntries(data.entries());
+
+            let cartJson = getCart();
+
+            // Boucle permettant de supprimer l'article au panier via splice
+            for (let index = 0; index < cartJson.length; index++) {
+                if (newProductJson.id === cartJson[index].id) {
+                    cartJson.splice(index, 1)
+                    let deleteArticleEl = document.querySelector(".box[data-id='"+newProductJson.id+"']");
+                    deleteArticleEl.remove();
+                    console.log(deleteArticleEl);
+                    break;
+                }
+            }
+
+            // Ajout des data au localstorage
+            localStorage.setItem("cart", JSON.stringify(cartJson))
+
+
+
+        })
+    };
+}
+
 // Permet de recuperer depuis le local storage le panier et de le renvoyer sous forme d'objet  
 function getCart() {
     
@@ -68,7 +110,7 @@ function getCart() {
 
 }
 
-// Permet d'ajouter les articles au panier
+// Permet d'ecrire le panier
 function setCartHTML(cartProducts) {
     
     let cartEl = document.querySelector("#cart");
@@ -82,7 +124,7 @@ function setCartHTML(cartProducts) {
             .then(function(data) {
 
                 let articleHTML = `
-                <div class="box">
+                <div class="box" data-id="${data._id}">
                     <div>
                         <img class="box__image_oak" src="${data.imageUrl}" />
                         <div class="box__label_large">${data.name}</div>
@@ -93,26 +135,21 @@ function setCartHTML(cartProducts) {
                         </form>
                         </br>
                         <div class="box__label_2">${data.description}</div>
-                        <div class="box__label_2">${cartProduct.quantity}</div>
+                        <div>
+                            <input class="box__input" type="number" value="${cartProduct.quantity}">
+                            <button>Valider</button>
+                        </div>
                     </div>
                 </div>
                 `;
     
                 cartEl.innerHTML = cartEl.innerHTML + articleHTML 
+
+                initdeleteFromCart();
             })
+    }
 
-        }
 
-
-}
-
-function deleteFromCart() {
-
-    let deleteEl = document.querySelectorAll(".deleteFromCart");
-
-    
-
-    
 }
 
 // Appel de la fonction
