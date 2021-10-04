@@ -18,6 +18,9 @@ function initCart() {
 
         setCartHTML(cartProducts);
     }
+
+    renderHtmlTotalArticles(cartJson);
+
 }
 
 
@@ -46,7 +49,7 @@ function initAddToCart() {
 
             // Boucle permettant d'ajouter l'article au panier ou d'augmenter la quantité
             for (let index = 0; index < cartJson.length; index++) {
-                if (newProductJson.id === cartJson[index].id) {
+                if (newProductJson.id === cartJson[index].id && newProductJson.varnish === cartJson[index].varnish) {
                     cartJson[index].quantity += 1;
                     productFound = true;
                 }
@@ -59,6 +62,7 @@ function initAddToCart() {
             // Ajout des data au localstorage
             localStorage.setItem("cart", JSON.stringify(cartJson))
 
+            renderHtmlTotalArticles(cartJson);
         })
     };
 }
@@ -85,14 +89,16 @@ function initdeleteFromCart() {
 
             // Boucle permettant de supprimer l'article au panier via splice
             for (let index = 0; index < cartJson.length; index++) {
-                if (newProductJson.id === cartJson[index].id) {
+                if (newProductJson.id === cartJson[index].id && newProductJson.varnish === cartJson[index].varnish) {
                     cartJson.splice(index, 1)
-                    let deleteArticleEl = document.querySelector(".box[data-id='"+newProductJson.id+"']");
+                    let deleteArticleEl = document.querySelector(".box[data-id='"+newProductJson.id+"'][data-varnish='"+newProductJson.varnish+"']");
                     deleteArticleEl.remove();
-                    console.log(deleteArticleEl);
+
                     break;
                 }
             }
+
+            renderHtmlTotalArticles(cartJson);
 
             // Ajout des data au localstorage
             localStorage.setItem("cart", JSON.stringify(cartJson))
@@ -101,6 +107,43 @@ function initdeleteFromCart() {
 
         })
     };
+}
+
+function initUpdateQuantity() {
+
+    let quantitiesEl = document.querySelectorAll('.updateQuantity .box__input');
+
+    for (let index = 0; index < quantitiesEl.length; index++) {
+        const quantityEl = quantitiesEl[index];
+
+        quantityEl.addEventListener('change', function(e) {
+
+            // Permet de recuperer les champs du formulaire
+            const data = new FormData(e.target.parentNode);
+
+            // Convertis les champs en json
+            let newProductJson = Object.fromEntries(data.entries());
+
+            let cartJson = getCart();
+
+            // Boucle permettant de supprimer l'article au panier via splice
+            for (let i = 0; i < cartJson.length; i++) {
+                if (newProductJson.id === cartJson[i].id && newProductJson.varnish === cartJson[i].varnish) {
+                    cartJson[i].quantity = newProductJson.quantity;
+
+                    break;
+                }
+            }
+
+            renderHtmlTotalArticles(cartJson);
+
+            // Ajout des data au localstorage
+            localStorage.setItem("cart", JSON.stringify(cartJson))
+
+        })
+        
+    }
+
 }
 
 // Permet de recuperer depuis le local storage le panier et de le renvoyer sous forme d'objet  
@@ -124,20 +167,23 @@ function setCartHTML(cartProducts) {
             .then(function(data) {
 
                 let articleHTML = `
-                <div class="box" data-id="${data._id}">
+                <div class="box" data-id="${data._id}" data-varnish="${cartProduct.varnish}">
                     <div>
                         <img class="box__image_oak" src="${data.imageUrl}" />
                         <div class="box__label_large">${data.name}</div>
                         <div class="box__label_medium">${data.price / 100} €</div>
                         <form class="deleteFromCart">
                             <input type="hidden" value="${data._id}" name="id" />
+                            <input type="hidden" value="${cartProduct.varnish}" name="varnish" />
                             <button type="submit">Supprimer du panier</button>
                         </form>
                         </br>
                         <div class="box__label_2">${data.description}</div>
                         <div>
-                            <input class="box__input" type="number" value="${cartProduct.quantity}">
-                            <button>Valider</button>
+                        <form class="updateQuantity">
+                            <input class="box__input" type="number" value="${cartProduct.quantity}" name="quantity">
+                            <input type="hidden" value="${data._id}" name="id" />
+                            <input type="hidden" value="${cartProduct.varnish}" name="varnish" />                 </form>
                         </div>
                     </div>
                 </div>
@@ -146,11 +192,45 @@ function setCartHTML(cartProducts) {
                 cartEl.innerHTML = cartEl.innerHTML + articleHTML 
 
                 initdeleteFromCart();
+                initUpdateQuantity();
             })
     }
+}
 
+// Recuperation nombre total d'articles dans le panier
+function nbTotalArticlesIntoCart(panier) {
+
+    let totalQuantity = 0;
+
+    for (let index = 0; index < panier.length; index++) {
+        let nbArticles = panier[index].quantity;
+
+        
+        totalQuantity = totalQuantity + nbArticles
+    }
+
+    return totalQuantity;
 
 }
+
+function getHtmlTotalArticles(panier) {
+
+    let htmlTotalArticle = `
+        <div>`+nbTotalArticlesIntoCart(panier)+`</div>    
+    `;
+
+    return htmlTotalArticle;
+
+}
+
+function renderHtmlTotalArticles(panier) {
+    
+    let htmlTotalArticles = getHtmlTotalArticles(panier);
+
+    document.querySelector(".test").innerHTML = htmlTotalArticles
+
+};
+
 
 // Appel de la fonction
 initCart();
