@@ -1,4 +1,4 @@
-// Initialisation du panier
+// Initialisation page info
 function initInfo() {
 
     let check = document.querySelector(".page-info");
@@ -58,36 +58,46 @@ function infoEl(id) {
         let articleEl = document.getElementById('info');
 
             let articleHTML = `
-            <div class="box">
-                <div>
-                    <img class="box__image_oak" src="${article.imageUrl}" />
-                    <div class="box__label_large">${article.name}</div>
-                    <div class="box__label_medium">${article.price / 100} €</div>
+        <div class="full_box">
+
+            <div class="box_3">
+            
+                    <img class="box_3_image_oak" src="${article.imageUrl}" />
+                    <div class="box_3_label_name">${article.name}</div>
+                    <div class="box_3_label_price">${article.price / 100} €</div>
                     </br>
+
                     <div class="selection">
+
                         <form class="addToCart">
+
                             <select class="select" name="varnish">
-                                <option select disabled value="">Varnish</option>`;
+                                    <option select disabled value="">Varnish</option>`;
 
-                            for (let i = 0; i < article.varnish.length; i++) {
-                            const varnishSelect = article.varnish[i];
+                                for (let i = 0; i < article.varnish.length; i++) {
+                                    const varnishSelect = article.varnish[i];
 
-                                articleHTML += `
+                                    articleHTML += `
                                     <option value="${varnishSelect}">${varnishSelect}</option>`
-                            };
-                            
-                                articleHTML += `</select>
+
+                                };
+                                
+                                    articleHTML += `
+
+                            </select>
 
                     
                             <input type="hidden" value="${article._id}" name="id" />
                             <input type="hidden" value="${article.name}" name="name" />
                             <button class="openBtn" type="submit">Ajouter au panier</button>
                         </form>
-                </div>
 
-                    <div class="box__label_2">${article.description}</div>
+                    </div>
 
-            </div>`;
+                    <div class="box_3_label_details">${article.description}</div>
+
+            </div>
+        </div>`;
 
             articleEl.innerHTML = articleEl.innerHTML + articleHTML
 

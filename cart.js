@@ -2,6 +2,7 @@
 // Initialisation du panier
 function initCart() {
   
+    // Panier
     let cartJson = getCart();
     
     // Si il n'y a pas d'article un panier vide s'initialise
@@ -54,7 +55,7 @@ function initAddToCart() {
                     productFound = true;
                 }
             }
-
+            // Si l'article n'est pas trouvé ajouté au panier
             if (productFound == false) {
                 cartJson.push(newProductJson)
             }
@@ -88,10 +89,11 @@ function initdeleteFromCart() {
             let cartJson = getCart();
 
             // Boucle permettant de supprimer l'article au panier via splice
-            for (let index = 0; index < cartJson.length; index++) {
-                if (newProductJson.id === cartJson[index].id && newProductJson.varnish === cartJson[index].varnish) {
-                    cartJson.splice(index, 1)
-                    let deleteArticleEl = document.querySelector(".box[data-id='"+newProductJson.id+"'][data-varnish='"+newProductJson.varnish+"']");
+            for (let i = 0; i < cartJson.length; i++) {
+                if (newProductJson.id === cartJson[i].id && newProductJson.varnish === cartJson[i].varnish) {
+                    cartJson.splice(i, 1)
+                    // 
+                    let deleteArticleEl = document.querySelector(".box_2[data-id='"+newProductJson.id+"'][data-varnish='"+newProductJson.varnish+"']");
                     deleteArticleEl.remove();
 
                     break;
@@ -109,10 +111,12 @@ function initdeleteFromCart() {
     };
 }
 
+// Initialisation de la quantité (du panier)
 function initUpdateQuantity() {
 
     let quantitiesEl = document.querySelectorAll('.updateQuantity .box__input');
 
+    // Boucle pour recuperer la quantité
     for (let index = 0; index < quantitiesEl.length; index++) {
         const quantityEl = quantitiesEl[index];
 
@@ -124,9 +128,10 @@ function initUpdateQuantity() {
             // Convertis les champs en json
             let newProductJson = Object.fromEntries(data.entries());
 
+            // Panier
             let cartJson = getCart();
 
-            // Boucle permettant de supprimer l'article au panier via splice
+            // Boucle permettant de modifier la quantité d'articles dans le panier
             for (let i = 0; i < cartJson.length; i++) {
                 if (newProductJson.id === cartJson[i].id && newProductJson.varnish === cartJson[i].varnish) {
                     cartJson[i].quantity = newProductJson.quantity;
@@ -135,6 +140,7 @@ function initUpdateQuantity() {
                 }
             }
 
+            // Affichage du nb d'articles HTML
             renderHtmlTotalArticles(cartJson);
 
             // Ajout des data au localstorage
@@ -162,30 +168,33 @@ function setCartHTML(cartProducts) {
     for (let index = 0; index < cartProducts.length; index++) {
         let cartProduct = cartProducts[index];
 
+            // Ajout de l'id a l'url de l'API
             fetch("http://localhost:3000/api/furniture/" + cartProduct.id)
             .then((resp) => resp.json())
             .then(function(data) {
 
                 let articleHTML = `
-                <div class="box" data-id="${data._id}" data-varnish="${cartProduct.varnish}">
-                    <div>
-                        <img class="box__image_oak" src="${data.imageUrl}" />
-                        <div class="box__label_large">${data.name}</div>
-                        <div class="box__label_medium">${data.price / 100} €</div>
-                        <form class="deleteFromCart">
-                            <input type="hidden" value="${data._id}" name="id" />
-                            <input type="hidden" value="${cartProduct.varnish}" name="varnish" />
-                            <button type="submit">Supprimer du panier</button>
-                        </form>
-                        </br>
-                        <div class="box__label_2">${data.description}</div>
-                        <div>
-                        <form class="updateQuantity">
-                            <input class="box__input" type="number" value="${cartProduct.quantity}" name="quantity">
-                            <input type="hidden" value="${data._id}" name="id" />
-                            <input type="hidden" value="${cartProduct.varnish}" name="varnish" />                 </form>
-                        </div>
+                <div class="full_box">
+
+                    <div class="box_2" data-id="${data._id}" data-varnish="${cartProduct.varnish}">
+                            <img class="box_2_image_oak" src="${data.imageUrl}" />
+                            <div class="box_2_label_name">${data.name}</div>
+                            <div class="box_2_label_price">${data.price / 100}€</div>
+                            <div class="box_2_details"><strong>Description du produit</strong>${data.description}</div>
+
+                            <form class="deleteFromCart">
+                                <input type="hidden" value="${data._id}" name="id" />
+                                <input type="hidden" value="${cartProduct.varnish}" name="varnish" />
+                                <button class="deleteBtn" type="submit">Supprimer du panier</button>
+                            </form>
+                            </br>
+                            <form class="updateQuantity">
+                                <input class="box__input" type="number" value="${cartProduct.quantity}" name="quantity">
+                                <input type="hidden" value="${data._id}" name="id" />
+                                <input type="hidden" value="${cartProduct.varnish}" name="varnish" />
+                            </form>
                     </div>
+
                 </div>
                 `;
     
@@ -213,6 +222,7 @@ function nbTotalArticlesIntoCart(panier) {
 
 }
 
+// Nombre d'articles dans la panier en HTML
 function getHtmlTotalArticles(panier) {
 
     let htmlTotalArticle = `
@@ -223,14 +233,15 @@ function getHtmlTotalArticles(panier) {
 
 }
 
+// 
 function renderHtmlTotalArticles(panier) {
     
     let htmlTotalArticles = getHtmlTotalArticles(panier);
 
-    document.querySelector(".test").innerHTML = htmlTotalArticles
+    document.querySelector(".nbTotalCart").innerHTML = htmlTotalArticles
 
 };
-
+        
 
 // Appel de la fonction
 initCart();

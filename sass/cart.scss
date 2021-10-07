@@ -12,9 +12,9 @@ body {
     overflow-x: hidden;
 }
 
-.container {
-    background: rgb(173, 157, 166);
-}
+// .container {
+//     background: rgb(173, 157, 166);
+// }
 
 .header {
     display: flex;
@@ -22,8 +22,10 @@ body {
 }
 
 section {
-    display: flex;
-    justify-content: space-around;
-    flex-direction: column;
-    @include dealBox;
+    #cart {
+        display: flex;
+        justify-content: space-around;
+        flex-direction: column;
+        @include dealBox;
+    }
 }

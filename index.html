@@ -10,6 +10,9 @@
     <link rel="stylesheet"
     href="https://fonts.googleapis.com/css?family=Open+Sans">
 
+    <script src="https://kit.fontawesome.com/0df0a6f299.js" crossorigin="anonymous"></script>
+
+
     <title>Orinoco</title>
 
 
@@ -27,10 +30,13 @@
                         <img src="logo.png" alt="Logo du site de vente en ligne">  
                     </a>
                     <div class="button">
-                        <a href="index.html">Accueil</a>
-                        <div class="test"></div>
-                        <a class="panier" href="cart.html">Panier
-                        </a>
+                        <a class="accueil" href="index.html">Accueil</a>
+                        <div class="box_panier">
+                            <a class="panier" href="cart.html">
+                                <i class="fas fa-shopping-cart"></i>
+                            </a>
+                            <div class="nbTotalCart"></div>
+                        </div>
                     </div>
                 </nav>
             </div>  
@@ -39,9 +45,9 @@
             <!-- PRODUCTS -->
             <section>
 
-                <div class="picture_index">
+                <!-- <div class="picture_index">
                         <p class="picture_index__label">Nous faisons vos meubles sur mesure</p>
-                </div>
+                </div> -->
 
                 <div>
                     <div id="articles"></div>

@@ -24,8 +24,8 @@ function setIndexHTML() {
             <div class="box">
                 <div>
                     <img class="box__image_oak" src="${article.imageUrl}" />
-                    <div class="box__label_large">${article.name}</div>
-                    <div class="box__label_medium">${article.price / 100} €</div>
+                    <div class="box__label_name">${article.name}</div>
+                    <div class="box__label_price">${article.price / 100} €</div>
                     </br>
                         <form class="addToCart">
                             <input type="hidden" value="${article._id}" name="id" />
@@ -33,7 +33,7 @@ function setIndexHTML() {
 
                             <a class="openBtn" href="info.html?id=${article._id}">Plus d'infos</a>
                         </form>
-                    <div class="box__label_2">${article.description}</div>
+                    <div class="box__label_details">${article.description}</div>
                 </div>
             </div>
             `;
