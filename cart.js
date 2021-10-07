@@ -1,3 +1,5 @@
+ // Tableau vide pour récuperer le prix (via l'id)
+ var priceById = [];
 
 // Initialisation du panier
 function initCart() {
@@ -21,7 +23,6 @@ function initCart() {
     }
 
     renderHtmlTotalArticles(cartJson);
-
 }
 
 
@@ -101,6 +102,7 @@ function initdeleteFromCart() {
             }
 
             renderHtmlTotalArticles(cartJson);
+            renderHtmlTotalPrice(cartJson);
 
             // Ajout des data au localstorage
             localStorage.setItem("cart", JSON.stringify(cartJson))
@@ -134,7 +136,7 @@ function initUpdateQuantity() {
             // Boucle permettant de modifier la quantité d'articles dans le panier
             for (let i = 0; i < cartJson.length; i++) {
                 if (newProductJson.id === cartJson[i].id && newProductJson.varnish === cartJson[i].varnish) {
-                    cartJson[i].quantity = newProductJson.quantity;
+                    cartJson[i].quantity = Number(newProductJson.quantity);
 
                     break;
                 }
@@ -142,6 +144,7 @@ function initUpdateQuantity() {
 
             // Affichage du nb d'articles HTML
             renderHtmlTotalArticles(cartJson);
+            renderHtmlTotalPrice(cartJson);
 
             // Ajout des data au localstorage
             localStorage.setItem("cart", JSON.stringify(cartJson))
@@ -163,15 +166,18 @@ function getCart() {
 function setCartHTML(cartProducts) {
     
     let cartEl = document.querySelector("#cart");
+    let fetches = [];
 
     // Permet d'ajouter l'article selectionner depuis le panier dans le panierHTML
     for (let index = 0; index < cartProducts.length; index++) {
         let cartProduct = cartProducts[index];
+        fetches.push(
 
             // Ajout de l'id a l'url de l'API
             fetch("http://localhost:3000/api/furniture/" + cartProduct.id)
             .then((resp) => resp.json())
             .then(function(data) {
+                priceById[data._id] = data.price / 100;
 
                 let articleHTML = `
                 <div class="full_box">
@@ -181,6 +187,7 @@ function setCartHTML(cartProducts) {
                             <div class="box_2_label_name">${data.name}</div>
                             <div class="box_2_label_price">${data.price / 100}€</div>
                             <div class="box_2_details"><strong>Description du produit</strong>${data.description}</div>
+                            <div class="box_2_varnish">${cartProduct.varnish}</div>
 
                             <form class="deleteFromCart">
                                 <input type="hidden" value="${data._id}" name="id" />
@@ -189,7 +196,7 @@ function setCartHTML(cartProducts) {
                             </form>
                             </br>
                             <form class="updateQuantity">
-                                <input class="box__input" type="number" value="${cartProduct.quantity}" name="quantity">
+                                <input class="box__input" type="number" min="1" value="${cartProduct.quantity}" name="quantity">
                                 <input type="hidden" value="${data._id}" name="id" />
                                 <input type="hidden" value="${cartProduct.varnish}" name="varnish" />
                             </form>
@@ -200,10 +207,16 @@ function setCartHTML(cartProducts) {
     
                 cartEl.innerHTML = cartEl.innerHTML + articleHTML 
 
-                initdeleteFromCart();
-                initUpdateQuantity();
             })
+        )     
     }
+
+    // Tous les fetch sont revenus
+    Promise.all(fetches).then(function() {
+        initdeleteFromCart();
+        initUpdateQuantity();
+        renderHtmlTotalPrice(getCart());
+    })
 }
 
 // Recuperation nombre total d'articles dans le panier
@@ -239,6 +252,30 @@ function renderHtmlTotalArticles(panier) {
     let htmlTotalArticles = getHtmlTotalArticles(panier);
 
     document.querySelector(".nbTotalCart").innerHTML = htmlTotalArticles
+
+};
+
+//
+function totalPriceIntoCart(panier) {
+    let total = 0;
+
+    for (let index = 0; index < panier.length; index++) {
+        let articleQuantity = panier[index].quantity;
+        let articlePrice = priceById[panier[index].id];
+
+        total = total + articleQuantity * articlePrice;
+        console.log(total);
+    }
+
+    return total;
+}
+
+// 
+function renderHtmlTotalPrice(panier) {
+    
+    let htmlTotalPrice = totalPriceIntoCart(panier);
+
+    document.querySelector(".totalPrice").innerHTML = htmlTotalPrice;
 
 };
         
