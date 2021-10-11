@@ -27,10 +27,8 @@ section {
         display: flex;
         justify-content: center;
         align-items: center;
-        // background-image: url("/images/carpenter-4015109.jpg");
         width: 100%;
         height: 650px;
-
         box-shadow: 0px 27px 19px -15px rgb(0 0 0 / 66%);
         .picture_index__label {
             color: white;
@@ -62,6 +60,6 @@ button {
 }
 
 .hide {
-    color: transparent;
+    display: none;
 }
 

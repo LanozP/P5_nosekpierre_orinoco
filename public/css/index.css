@@ -8,52 +8,52 @@ body {
 
 .header {
   display: flex;
-}
-.header nav {
-  width: 100%;
   display: flex;
-  flex-direction: row;
-  justify-content: start;
-  background: #f3e9f1;
+  justify-content: space-between;
+  background-color: #f3e9f1;
+}
+.header .box_arrow {
+  display: flex;
+  align-items: center;
+  font-size: 32px;
+  margin-left: 30px;
+  width: 32px;
+  margin-right: 150px;
+}
+.header .box_arrow .fas {
+  color: rgba(0, 0, 0, 0.74);
 }
 .header img {
+  display: flex;
+  justify-content: center;
   height: 150px;
 }
-.header .logo {
-  display: flex;
-  justify-content: end;
-  width: 60%;
-}
 .header .button {
-  width: 40%;
-  display: flex;
-  flex-direction: row;
-  justify-content: end;
-  align-items: center;
-  margin-right: 50px;
-}
-.header .button a {
-  align-items: flex-start;
-  font-family: "Open Sans";
-  color: black;
-  text-decoration: none;
-  font-size: 25px;
-  font-weight: 900;
-  margin-right: 15px;
-}
-.header .button .box_panier {
-  display: flex;
-  flex-direction: row;
-  border: 3px solid black;
-  border-radius: 10%;
-  padding: 5px;
-}
-.header .button .box_panier .nbTotalCart {
-  font-size: 22px;
-  font-weight: 600;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 28px;
+}
+.header .button .accueil {
+  text-decoration: none;
+  color: black;
+  margin-right: 20px;
+}
+.header .button .box_panier {
+  display: flex;
+  border: 3px solid black;
+  padding: 10px;
+  border-radius: 15px 15px 15px 15px;
+  margin-right: 30px;
+}
+.header .button .box_panier .panier {
+  font-size: 22px;
+  color: black;
+  margin-right: 15px;
+}
+.header .button .box_panier .nbTotalCart {
+  font-size: 22px;
+  font-weight: bolder;
 }
 
 section {
@@ -70,71 +70,65 @@ section .full_box {
 section .box_3 {
   width: 100%;
   display: flex;
+  justify-content: space-between;
   cursor: pointer;
 }
 section .box_3_image_oak {
   width: 30%;
-  height: 400px;
   background-size: contain;
   border-radius: 15px 15px 15px 15px;
-}
-section .box_3 .box_3_label_name {
-  display: flex;
-  align-items: center;
-  font-family: "Open Sans";
-  font-size: 20px;
-  font-weight: 900;
-  margin-right: -60px;
-}
-section .box_3 .box_3_label_price {
-  display: flex;
-  align-items: center;
-  font-family: "Open Sans";
-  font-size: 20px;
-  font-weight: 900;
-  padding: 20px;
   margin-right: 20px;
+}
+section .box_3 .box_3_name {
+  display: flex;
+  align-items: center;
+  font-family: "Open Sans";
+  font-size: 22px;
+  font-weight: 900;
+}
+section .box_3 .box_3_price {
+  display: flex;
+  align-items: center;
+  font-family: "Open Sans";
+  font-size: 22px;
+  font-weight: 900;
 }
 section .box_3 .box_3_details {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  margin-right: 20px;
 }
-section .box_3 .box_3_label_quantity {
-  display: flex;
-  align-items: center;
-  font-family: "Open Sans";
-  font-size: 16px;
+section .box_3 .box_3_details .box_3_label_details {
+  font-weight: 900;
+  margin-bottom: 5px;
+  font-size: 18px;
 }
 section .selection {
   display: flex;
   align-items: center;
 }
-section .deleteFromCart {
+section .addToCart {
   display: flex;
-  align-items: center;
   justify-content: center;
 }
-section .deleteFromCart .deleteBtn {
-  margin-right: 20px;
-  width: 200px;
+section .openBtn {
+  background-color: ghostwhite;
+  text-align: center;
+  text-decoration: none;
+  color: black;
+  width: 100px;
   border-radius: 15px 15px 15px 15px;
   box-shadow: 5px 7px 11px -1px rgba(0, 0, 0, 0.25);
-  padding: 10px;
-}
-section .updateQuantity {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-family: "Open Sans";
+  padding: 5px;
   font-weight: 900;
-  margin-right: 20px;
+  margin-right: 30px;
 }
-section .updateQuantity .box__input {
-  box-shadow: 5px 7px 11px -1px rgba(0, 0, 0, 0.25);
-  font-weight: 600;
-  margin-top: 10px;
-  font-size: 16px;
+section .select {
+  background-color: ghostwhite;
+  border-radius: 10%;
+  border: 2px solid black;
+  margin-right: 20px;
 }
 section .box {
   width: 400px;
@@ -155,7 +149,7 @@ section .box__image_oak {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
-section .box .box__label_name {
+section .box .box__name {
   display: flex;
   justify-content: center;
   font-family: "Open Sans";
@@ -163,7 +157,7 @@ section .box .box__label_name {
   font-weight: 900;
   padding-top: 8px;
 }
-section .box .box__label_price {
+section .box .box__price {
   display: flex;
   justify-content: center;
   font-family: "Open Sans";
@@ -171,7 +165,7 @@ section .box .box__label_price {
   font-weight: 900;
   padding-top: 8px;
 }
-section .box .box__label_details {
+section .box .box__details {
   display: flex;
   justify-content: center;
   font-family: "Open Sans";
@@ -179,26 +173,6 @@ section .box .box__label_details {
   font-size: 16px;
   margin-top: 30px;
   margin-bottom: 30px;
-}
-section .addToCart {
-  display: flex;
-  justify-content: center;
-}
-section .openBtn {
-  background-color: rgba(252, 250, 250, 0.945);
-  text-align: center;
-  text-decoration: none;
-  color: black;
-  width: 100px;
-  border-radius: 15px 15px 15px 15px;
-  box-shadow: 5px 7px 11px -1px rgba(0, 0, 0, 0.25);
-  padding: 5px;
-  font-weight: 900;
-}
-section .select {
-  background-color: rgba(252, 250, 250, 0.945);
-  border-radius: 10%;
-  border: 2 px solid black;
 }
 section .picture_index {
   display: flex;
@@ -236,7 +210,7 @@ button {
 }
 
 .hide {
-  color: transparent;
+  display: none;
 }
 
 /*# sourceMappingURL=index.css.map */

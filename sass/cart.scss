@@ -28,4 +28,74 @@ section {
         flex-direction: column;
         @include dealBox;
     }
+    .confirm {
+        @include confirm_box;
+    }
+}
+
+.box_cart {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: $color-secondary;
+    border-radius: 30px 30px 30px 30px;
+    margin-top: 20px;
+    padding: 40px;
+    .cart_label {
+        display: flex;
+        justify-content: center;
+        font-family: $font-family1;
+        font-weight: bolder;
+        font-size: 22px;
+    }
+    .totalPrice {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: $font-family1;
+        font-weight: bolder;
+        font-size: 28px;
+        margin-left: 20px;
+    }
+}
+
+.box_validation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .info_customer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 30%;
+        input {
+            border-radius: 15px 15px 15px 15px;
+            box-shadow: 5px 7px 11px -1px rgb(0 0 0 / 25%);
+            margin-top: 40px;
+            font-size: 20px;
+            text-align: center;
+            padding: 5px;
+        }
+        .btn_submit {
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            align-items: center;
+            .submit {
+                border-radius: 15px 15px 15px 15px;
+                box-shadow: 5px 7px 11px -1px rgb(0 0 0 / 25%);
+                padding: 15px;
+                font-size: 20px;
+                background-color: white;
+                font-weight: bolder;
+                margin-top: 55px;
+                cursor: pointer;
+                width: 250px;
+            }
+        }
+    }
+}
+
+#confirm {
+    @include confirm_box;
 }

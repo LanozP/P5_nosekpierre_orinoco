@@ -63,8 +63,8 @@ function infoEl(id) {
             <div class="box_3">
             
                     <img class="box_3_image_oak" src="${article.imageUrl}" />
-                    <div class="box_3_label_name">${article.name}</div>
-                    <div class="box_3_label_price">${article.price / 100} €</div>
+                    <div class="box_3_name">${article.name}</div>
+                    <div class="box_3_price">${article.price / 100}€</div>
                     </br>
 
                     <div class="selection">
@@ -94,7 +94,9 @@ function infoEl(id) {
 
                     </div>
 
-                    <div class="box_3_label_details">${article.description}</div>
+                    <div class="box_3_details">
+                    <a class="box_3_label_details">Description du produit</a>
+                    ${article.description}</div>
 
             </div>
         </div>`;

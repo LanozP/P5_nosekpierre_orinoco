@@ -24,21 +24,26 @@
 
             <!-- HEADER -->
             <div class="header">
-                <nav>
-                    <a class="logo" href="index.html">
-                        <img src="logo.png" alt="Logo du site de vente en ligne">  
+                <div class="box_arrow">
+                    <a class="back_arrow" href="index.html">
+                        <i class="fas fa-arrow-circle-left"></i>
                     </a>
-                    <div class="button">
-                        <a href="index.html">Accueil</a>
-                        <div class="box_panier">
-                            <a class="panier" href="cart.html">
-                                <i class="fas fa-shopping-cart"></i>
-                            </a>
-                            <div class="nbTotalCart"></div>
-                        </div>
-                        <div class="totalPrice"></div>
-                </nav>
-            </div>  
+                </div>
+
+                <img src="logo.png" alt="Logo du site de vente en ligne">  
+
+                <div class="button">
+                    <a class="accueil" href="index.html">Accueil</a>
+                    
+                    <div class="box_panier">
+                        <a class="panier" href="cart.html">
+                            <i class="fas fa-shopping-cart"></i>
+                        </a>
+                        <div class="nbTotalCart"></div>
+                    </div>
+                    
+                </div>
+        </div> 
             <!-- END OF HEADER -->
 
             <!-- PANIER -->
@@ -49,6 +54,24 @@
                 </div>
 
             </section>
+
+            <div class="box_cart">
+                <h1 class="cart_label">Montant total du panier</h1>
+                <div class="totalPrice"></div>
+
+                <div class="box_validation">
+                    <form action="" class="info_customer">
+                        <input type="text" class="firstName" placeholder="Prenom" name="firstName" required>
+                        <input type="text" class="lastName" placeholder="Nom" name="lastName" required>
+                        <input type="text" class="address" placeholder="Adresse" name="address" required>
+                        <input type="text" class="city" placeholder="Ville" name="city" required>
+                        <input type="email" class="email" placeholder="Email" name="email" required>
+                        <div class="btn_submit">
+                            <input type="submit" class="submit" value="Valider le panier">
+                        </div>
+                    </form>
+                </div>
+            </div>
             <!-- END OF PANIER -->
         
             <script src="info.js"></script> 

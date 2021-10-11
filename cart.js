@@ -6,7 +6,7 @@ function initCart() {
   
     // Panier
     let cartJson = getCart();
-    
+
     // Si il n'y a pas d'article un panier vide s'initialise
     if (!cartJson) {
         localStorage.setItem("cart", "[]") 
@@ -14,15 +14,27 @@ function initCart() {
 
     // Affiche le panier si on est sur la page panier
     let check = document.querySelector(".page-cart");
+    let check2 = document.querySelector(".page-info");
+    let check3 = document.querySelector(".page-index");
 
     // si on est sur la page panier il initialise le panier et ajoute l'articleHTML
     if (check) {
         let cartProducts = getCart();
 
         setCartHTML(cartProducts);
+
+        renderHtmlTotalArticles(cartJson);
+
+        validateCart();
     }
 
-    renderHtmlTotalArticles(cartJson);
+    if (check2) {
+        renderHtmlTotalArticles(cartJson);
+    }
+
+    if (check3) {
+        renderHtmlTotalArticles(cartJson);
+    }
 }
 
 
@@ -107,8 +119,6 @@ function initdeleteFromCart() {
             // Ajout des data au localstorage
             localStorage.setItem("cart", JSON.stringify(cartJson))
 
-
-
         })
     };
 }
@@ -183,11 +193,14 @@ function setCartHTML(cartProducts) {
                 <div class="full_box">
 
                     <div class="box_2" data-id="${data._id}" data-varnish="${cartProduct.varnish}">
-                            <img class="box_2_image_oak" src="${data.imageUrl}" />
-                            <div class="box_2_label_name">${data.name}</div>
-                            <div class="box_2_label_price">${data.price / 100}€</div>
-                            <div class="box_2_details"><strong>Description du produit</strong>${data.description}</div>
-                            <div class="box_2_varnish">${cartProduct.varnish}</div>
+                            <a class="box_2_image" href="info.html?id=${cartProduct.id}">
+                                <img class="box_2_image_oak" src="${data.imageUrl}" />
+                            </a>
+                            <div class="box_2_name">${data.name}</div>
+                            <div class="box_2_price">${data.price / 100}€</div>
+                            <div class="box_2_details">
+                            <a class="box_2_label_details">Description du produit</a>
+                            ${data.description}</div>
 
                             <form class="deleteFromCart">
                                 <input type="hidden" value="${data._id}" name="id" />
@@ -200,6 +213,9 @@ function setCartHTML(cartProducts) {
                                 <input type="hidden" value="${data._id}" name="id" />
                                 <input type="hidden" value="${cartProduct.varnish}" name="varnish" />
                             </form>
+                            <div class="box_2_varnish">
+                            <a class="box_2_label_varnish">Varnish:</a>
+                            ${cartProduct.varnish}</div>
                     </div>
 
                 </div>
@@ -246,7 +262,7 @@ function getHtmlTotalArticles(panier) {
 
 }
 
-// 
+// Affichage HTML du total d'articles
 function renderHtmlTotalArticles(panier) {
     
     let htmlTotalArticles = getHtmlTotalArticles(panier);
@@ -255,7 +271,7 @@ function renderHtmlTotalArticles(panier) {
 
 };
 
-//
+// Prix total du panier
 function totalPriceIntoCart(panier) {
     let total = 0;
 
@@ -264,20 +280,84 @@ function totalPriceIntoCart(panier) {
         let articlePrice = priceById[panier[index].id];
 
         total = total + articleQuantity * articlePrice;
-        console.log(total);
+
     }
 
     return total;
 }
 
-// 
+// Nombre d'articles dans la panier en HTML
+function getHtmlTotalPrice(panier) {
+
+    let htmlTotalPrice = `
+        <div>`+totalPriceIntoCart(panier)+` €</div>    
+    `;
+
+    return htmlTotalPrice;
+
+}
+
+// Affichage HTML du prix total du panier
 function renderHtmlTotalPrice(panier) {
     
-    let htmlTotalPrice = totalPriceIntoCart(panier);
+    let htmlTotalPrice = getHtmlTotalPrice(panier);
 
     document.querySelector(".totalPrice").innerHTML = htmlTotalPrice;
 
 };
+
+// 
+function validateCart() {
+
+    let formValidateEl = document.querySelector('.info_customer');
+
+    formValidateEl.addEventListener('submit', function(e) {
+        // Permet de bloquer la requete http
+        e.preventDefault();
+
+        // Permet de recuperer les champs du formulaire
+        const data = new FormData(e.target);
+
+        // Convertis les champs en json
+        let formJson = Object.fromEntries(data.entries());
+
+        let cartJson = getCart();
+
+        let arrayOfIds = [];
+         
+        for (let index = 0; index < cartJson.length; index++) {
+
+            if (!arrayOfIds.includes(cartJson[index].id)) {
+                arrayOfIds.push(cartJson[index].id)
+            }
+        }
+
+        let payload = {
+
+        };
+        
+        payload.contact = formJson;
+        payload.products = arrayOfIds;
+
+        fetch('http://localhost:3000/api/furniture/order', {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        })
+        .then((resp) => resp.json())
+        .then(function(data) {
+
+            localStorage.setItem("cart", "[]");
+            location.assign('confirm.html?id='+data.orderId+'&price='+totalPriceIntoCart(cartJson)+'');
+    
+        })
+
+    })
+
+}
         
 
 // Appel de la fonction
