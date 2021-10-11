@@ -295,4 +295,16 @@ section .confirm .box_4 .box_4_price {
   font-weight: bolder;
 }
 
+.header_2 {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: #f3e9f1;
+}
+.header_2 img {
+  display: flex;
+  justify-content: center;
+  height: 150px;
+}
+
 /*# sourceMappingURL=cart.css.map */
